@@ -82,6 +82,8 @@ Humanoid.prototype.characterStatus = function () {
 Humanoid.prototype.dead = function () {
   if (this.healthPoints < 1) {
     return console.log(this.destroy());
+  } else {
+    return console.log(this.name + " is still alive");
   }
 }
 
@@ -90,6 +92,7 @@ function Hero(attr) {
   Humanoid.call(this, attr);
   this.healingAmulet = () => this.healthPoints += 4;
   this.swingSword = function (enemy) {
+    console.log(`${this.name}: Hyah!`);
     return enemy.healthPoints -= 2;
   }
 };
@@ -102,6 +105,7 @@ function Villain(attr) {
   Humanoid.call(this, attr);
   this.darknessHeals = () => this.healthPoints += 2;
   this.castSpell = function (enemy) {
+    console.log(`${this.name}: Hyah!`);
     return enemy.healthPoints -= 4;
   }
 };
@@ -224,7 +228,6 @@ Natasha.characterStatus();
 Gerald.greet();
 Natasha.greet();
 Natasha.swingSword(Gerald);
-Natasha.attackSound();
 Gerald.darknessHeals();
 Gerald.characterStatus();
 Natasha.characterStatus();
@@ -233,6 +236,8 @@ Gerald.castSpell(Natasha);
 Gerald.darknessHeals();
 Gerald.characterStatus();
 Natasha.characterStatus();
+Gerald.dead();
+Natasha.dead();
 Gerald.castSpell(Natasha);
 Gerald.castSpell(Natasha);
 Gerald.castSpell(Natasha);
