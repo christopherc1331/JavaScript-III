@@ -37,6 +37,8 @@ function CharacterStats(attr) {
   this.healthPoints = attr.healthPoints;
 }
 
+
+
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
 CharacterStats.prototype.takeDamage = function () {
@@ -65,8 +67,46 @@ function Humanoid(attr) {
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function () {
-  return `${this.name} offers a greeting in ${this.language}`;
+  return console.log(`${this.name} offers a greeting in ${this.language}`);
 }
+
+Humanoid.prototype.attackSound = function () {
+  return console.log(`${this.name}: Hyah!`);
+}
+
+Humanoid.prototype.characterStatus = function () {
+  return console.log(`Character: ${this.name} | Health: ${this.healthPoints} | Weapons: ${this.weapons}`);
+}
+
+
+Humanoid.prototype.dead = function () {
+  if (this.healthPoints < 1) {
+    return console.log(this.destroy());
+  }
+}
+
+
+function Hero(attr) {
+  Humanoid.call(this, attr);
+  this.healingAmulet = () => this.healthPoints += 4;
+  this.swingSword = function (enemy) {
+    return enemy.healthPoints -= 2;
+  }
+};
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+
+
+function Villain(attr) {
+  Humanoid.call(this, attr);
+  this.darknessHeals = () => this.healthPoints += 2;
+  this.castSpell = function (enemy) {
+    return enemy.healthPoints -= 4;
+  }
+};
+
+Villain.prototype = Object.create(Humanoid.prototype);
 
 
 /*
@@ -139,7 +179,63 @@ console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
-  // Stretch task: 
-  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
-  // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
-  // * Create two new objects, one a villain and one a hero and fight it out with methods!
+// Stretch task: 
+// * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
+// * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+// * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+const Gerald = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 1,
+    height: 1,
+  },
+  healthPoints: 8,
+  name: 'Gerald',
+  team: 'Mage Guild',
+  weapons: [
+    "Worthemer\'s lost staff",
+    "Ancient scrolls",
+  ],
+  language: 'Druidic tongue',
+});
+
+const Natasha = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 2,
+  },
+  healthPoints: 15,
+  name: 'Natasha',
+  team: 'The Round Table',
+  weapons: [
+    '2H sword',
+    'Turtle-shell shield',
+  ],
+  language: 'Common Tongue',
+});
+
+
+Gerald.characterStatus();
+Natasha.characterStatus();
+Gerald.greet();
+Natasha.greet();
+Natasha.swingSword(Gerald);
+Natasha.attackSound();
+Gerald.darknessHeals();
+Gerald.characterStatus();
+Natasha.characterStatus();
+Natasha.healingAmulet();
+Gerald.castSpell(Natasha);
+Gerald.darknessHeals();
+Gerald.characterStatus();
+Natasha.characterStatus();
+Gerald.castSpell(Natasha);
+Gerald.castSpell(Natasha);
+Gerald.castSpell(Natasha);
+Gerald.castSpell(Natasha);
+Natasha.characterStatus();
+Natasha.dead();

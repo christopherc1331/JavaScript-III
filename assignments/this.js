@@ -25,14 +25,14 @@ randObj.showObjDetails;
 
 // code example for Implicit Binding
 
-const animal = function (attr) {
+const Animal = function (attr) {
     this.age = attr.age;
     this.gender = attr.gender;
     this.name = attr.name;
 
 }
 
-animal.prototype.greeting = function (attr) {
+Animal.prototype.greeting = function (attr) {
     console.log(`Hi, my name is ${this.name} and I'm ${this.age} years old`);
     console.log(this);
 };
@@ -42,7 +42,7 @@ animal.prototype.greeting = function (attr) {
 
 // code example for New Binding
 
-const testAnimal = new animal({ name: "Ralph", age: "2" });
+const testAnimal = new Animal({ name: "Ralph", age: "2" });
 
 testAnimal.greeting();
 console.log(testAnimal.age);
@@ -53,10 +53,10 @@ console.log(testAnimal.age);
 // code example for Explicit Binding
 
 
-const dog = function (attr) {
-    animal.call(this, attr);
+const Dog = function (attr) {
+    Animal.call(this, attr);
     this.furry = attr.furry;
-    this.isFurry = function () {
+    this.isFurry = () => {
         if (this.isFurry === "Yes") {
             return true;
         } else {
@@ -65,10 +65,10 @@ const dog = function (attr) {
     };
 };
 
-dog.prototype = Object.create(animal.prototype);
+Dog.prototype = Object.create(Animal.prototype);
 
 
-const testDog = new dog({ name: "Milly", age: "12", isFurry: "Yes" });
+const testDog = new Dog({ name: "Milly", age: "12", isFurry: "Yes" });
 
 testDog.greeting();
 console.log(testDog.age);
