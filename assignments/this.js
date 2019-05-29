@@ -13,14 +13,63 @@
 
 // code example for Window Binding
 
+const randObj = {
+    showObjDetails: console.log(this),
+    random: "info",
+}
+
+randObj.showObjDetails;
+
+
 // Principle 2
 
 // code example for Implicit Binding
+
+const animal = function (attr) {
+    this.age = attr.age;
+    this.gender = attr.gender;
+    this.name = attr.name;
+
+}
+
+animal.prototype.greeting = function (attr) {
+    console.log(`Hi, my name is ${this.name} and I'm ${this.age} years old`);
+    console.log(this);
+};
+
 
 // Principle 3
 
 // code example for New Binding
 
+const testAnimal = new animal({ name: "Ralph", age: "2" });
+
+testAnimal.greeting();
+console.log(testAnimal.age);
+
+
 // Principle 4
 
 // code example for Explicit Binding
+
+
+const dog = function (attr) {
+    animal.call(this, attr);
+    this.furry = attr.furry;
+    this.isFurry = function () {
+        if (this.isFurry === "Yes") {
+            return true;
+        } else {
+            return false;
+        }
+    };
+};
+
+dog.prototype = Object.create(animal.prototype);
+
+
+const testDog = new dog({ name: "Milly", age: "12", isFurry: "Yes" });
+
+testDog.greeting();
+console.log(testDog.age);
+console.log(testDog.isFurry());
